@@ -14,6 +14,13 @@ namespace Vidly.Controllers
         {
             var movie = new Movie() { Name = "Shrek!" };
 
+            //TODO:do not use following two line
+            //ViewData["RandomMovie"] = movie;//Ugly Method
+            //ViewBag.RandomMovie = movie;//Ugly Method
+
+            //var viewResult = new ViewResult();
+            //viewResult.ViewData.Model = movie;
+
             return View(movie);
         }
 
