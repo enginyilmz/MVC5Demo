@@ -37,6 +37,12 @@ namespace Vidly.Controllers
 
         }
 
+        //public ActionResult Create()
+        //{
+
+        //    return View();
+        //}
+
         //private IEnumerable<Movie> GetMovies()
         //{
         //    return new List<Movie>
