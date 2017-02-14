@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -74,17 +75,27 @@ namespace Vidly.Controllers
         {
             if (movie.Id == 0)
                 _context.Movies.Add(movie);
-            else
-            {
-                var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
+            //else
+            //{
+            //    var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
 
-                movieInDb.Name = movie.Name;
-                movieInDb.Genre = movie.Genre;
-                movieInDb.NumberInStock = movie.NumberInStock;
-                movieInDb.ReleaseDate = movie.ReleaseDate;
-                //movieInDb.DateAdded = DateTime.Now;
+            //    movieInDb.Name = movie.Name;
+            //    movieInDb.Genre = movie.Genre;
+            //    movieInDb.NumberInStock = movie.NumberInStock;
+            //    movieInDb.ReleaseDate = movie.ReleaseDate;
+            //    //movieInDb.DateAdded = DateTime.Now;
+            //}
+
+            try
+            {
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
+            catch (DbEntityValidationException e)
+            {
+
+                Console.WriteLine(e);
+            }
+            
             return RedirectToAction("Index", "Movies");
         }
     }
