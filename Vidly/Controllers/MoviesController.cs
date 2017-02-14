@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
@@ -25,7 +26,7 @@ namespace Vidly.Controllers
 
         public ViewResult Index()
         {
-            var movies = _context.Movies.ToList();
+            var movies = _context.Movies.Include(m=>m.Genre).ToList();
             return View(movies);
         }
 
@@ -39,16 +40,17 @@ namespace Vidly.Controllers
 
         }
 
-        public ActionResult Create()
+        public ActionResult New()
         {
+            var genres = _context.Genres.ToList();
             var viewModel = new MovieFormViewModel
             {
-                Movie = new Movie(),
-                Genres = GetGenres()
+                Genres = genres
             };
 
             return View("MovieForm", viewModel);
         }
+
         public ActionResult Edit(int Id)
         {
             var movie = _context.Movies.SingleOrDefault(m => m.Id == Id);
@@ -59,15 +61,10 @@ namespace Vidly.Controllers
             var viewModel = new MovieFormViewModel
             {
                 Movie = movie,
-                Genres = GetGenres()
+                Genres = _context.Genres.ToList()
             };
 
             return View("MovieForm", viewModel);
-        }
-
-        private static string[] GetGenres()
-        {
-            return new[] {"Action","Thriller","Family","Romance","Comedy" };
         }
 
         [HttpPost]
@@ -75,16 +72,15 @@ namespace Vidly.Controllers
         {
             if (movie.Id == 0)
                 _context.Movies.Add(movie);
-            //else
-            //{
-            //    var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
+            else
+            {
+                var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
 
-            //    movieInDb.Name = movie.Name;
-            //    movieInDb.Genre = movie.Genre;
-            //    movieInDb.NumberInStock = movie.NumberInStock;
-            //    movieInDb.ReleaseDate = movie.ReleaseDate;
-            //    //movieInDb.DateAdded = DateTime.Now;
-            //}
+                movieInDb.Name = movie.Name;
+                movieInDb.GenreId = movie.GenreId;
+                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+            }
 
             try
             {
