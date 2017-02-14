@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201702140730092_AddGenreToMovie.Designer.cs">
       <DependentUpon>201702140730092_AddGenreToMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702140857053_AddRequierdFiledToCustomer.cs" />
+    <Compile Include="Migrations\201702140857053_AddRequierdFiledToCustomer.Designer.cs">
+      <DependentUpon>201702140857053_AddRequierdFiledToCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -331,6 +335,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702140730092_AddGenreToMovie.resx">
       <DependentUpon>201702140730092_AddGenreToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702140857053_AddRequierdFiledToCustomer.resx">
+      <DependentUpon>201702140857053_AddRequierdFiledToCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
