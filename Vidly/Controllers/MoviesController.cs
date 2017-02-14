@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -37,40 +38,54 @@ namespace Vidly.Controllers
 
         }
 
-        //public ActionResult Create()
-        //{
+        public ActionResult Create()
+        {
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = new Movie(),
+                Genres = GetGenres()
+            };
 
-        //    return View();
-        //}
+            return View("MovieForm", viewModel);
+        }
+        public ActionResult Edit(int Id)
+        {
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == Id);
 
-        //private IEnumerable<Movie> GetMovies()
-        //{
-        //    return new List<Movie>
-        //    {
-        //        new Movie{Id=1,Name = "Shrek"},
-        //        new Movie{Id=2,Name = "Wall-e"}
-        //    };
-        //}
+            if (movie == null)
+                return HttpNotFound();
 
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                Genres = GetGenres()
+            };
 
-        //public ActionResult Random()
-        //{
-        //    var movie = new Movie() { Name = "Shrek!" };
-        //    var customers = new List<Customer>
-        //    {
-        //        new Customer {Name = "Customer 1"},
-        //        new Customer {Name = "Customer 2"}
-        //    };
+            return View("MovieForm", viewModel);
+        }
 
-        //    var viewModel = new RandomMovieViewModel
-        //    {
-        //        Movie = movie,
-        //        Customers = customers
-        //    };
+        private static string[] GetGenres()
+        {
+            return new[] {"Action","Thriller","Family","Romance","Comedy" };
+        }
 
-        //    return View(viewModel);
-        //}
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+                _context.Movies.Add(movie);
+            else
+            {
+                var movieInDb = _context.Movies.Single(c => c.Id == movie.Id);
 
-
+                movieInDb.Name = movie.Name;
+                movieInDb.Genre = movie.Genre;
+                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                //movieInDb.DateAdded = DateTime.Now;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Movies");
+        }
     }
 }

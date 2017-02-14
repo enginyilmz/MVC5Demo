@@ -71,14 +71,6 @@ namespace Vidly.Controllers
 
         }
 
-        //private IEnumerable<Customer> GetCustomers()
-        //{
-        //    return new List<Customer>
-        //    {
-        //        new Customer {Id = 1, Name = "John Smith", MembershipType = MembershipType},
-        //        new Customer {Id = 2, Name = "Mary Williams"},
-        //    };
-        //}
         public ActionResult Edit(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
